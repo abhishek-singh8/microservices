@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="api",produces={MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 public class AccountsController {
 
     private IAccountsService iAccountsService;
@@ -36,6 +35,34 @@ public class AccountsController {
                 status(HttpStatus.OK)
                 .body(customerDto);
 
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> updateAccount(@RequestBody CustomerDto customerDto){
+        boolean status=iAccountsService.updateAccount(customerDto);
+        if(status){
+            return ResponseEntity.
+                    status(HttpStatus.OK)
+                    .body(new ResponseDto(AccountsConstants.STATUS_200,AccountsConstants.MESSAGE_200));
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountsConstants.STATUS_417,AccountsConstants.MESSAGE_417_UPDATE));
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDto> deleteAccount(@RequestParam String mobileNumber){
+        boolean status=iAccountsService.deleteAccount(mobileNumber);
+        if(status){
+            return ResponseEntity.
+                    status(HttpStatus.OK)
+                    .body(new ResponseDto(AccountsConstants.STATUS_200,AccountsConstants.MESSAGE_200));
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountsConstants.MESSAGE_417_DELETE,AccountsConstants.MESSAGE_417_DELETE));
+        }
     }
 
 }

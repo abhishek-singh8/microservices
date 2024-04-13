@@ -63,6 +63,41 @@ public class AccountsService implements IAccountsService {
 
     }
 
+    @Override
+    public boolean updateAccount(CustomerDto customerDto) {
+        boolean isUpdated = false;
+        AccountsDto accountsDto=customerDto.getAccountsDto();
+        if(accountsDto!=null){
+            Optional<Accounts> accounts=accountsRepository.findById(accountsDto.getAccountNumber());
+            if(!accounts.isPresent()) {
+                throw new ResourceNotFoundException("Accounts","accountNumber",accountsDto.getAccountNumber().toString());
+            }
+            Accounts accountsUpdated=AccountsMapper.mapToAccounts(accountsDto,accounts.get());
+            accountsRepository.save(accountsUpdated);
+
+            Optional<Customer> optionalCustomer = customerRepository.findById(accounts.get().getCustomerId());
+            if(!optionalCustomer.isPresent()) {
+                throw new ResourceNotFoundException("Customer","customerId",accounts.get().getCustomerId().toString());
+            }
+            Customer cutomerUpdated=CustomerMapper.mapToCustomer(customerDto,optionalCustomer.get());
+            customerRepository.save(cutomerUpdated);
+            isUpdated = true;
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean deleteAccount(String mobileNumber) {
+
+        Optional<Customer> optionalCustomer = customerRepository.findByMobileNumber(mobileNumber);
+        if(!optionalCustomer.isPresent()) {
+            throw new ResourceNotFoundException("Customer","mobileNumber",mobileNumber);
+        }
+        accountsRepository.deleteByCustomerId(optionalCustomer.get().getCustomerID());
+        customerRepository.deleteById(optionalCustomer.get().getCustomerID());
+        return true;
+    }
+
     /**
      * @param customer - Customer Object
      * @return the new account details
