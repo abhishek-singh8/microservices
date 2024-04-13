@@ -40,9 +40,21 @@ public class AccountsService implements IAccountsService {
                     +customerDto.getMobileNumber());
         }
         customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("Anonymous");
-        Customer savedCustomer = customerRepository.save(customer);
         accountsRepository.save(createNewAccount(savedCustomer));
+    }
+    /**
+     * @param customer - Customer Object
+     * @return the new account details
+     */
+    private Accounts createNewAccount(Customer customer) {
+        Accounts newAccount = new Accounts();
+        newAccount.setCustomerId(customer.getCustomerID());
+        long randomAccNumber = 1000000000L + new Random().nextInt(900000000);
+
+        newAccount.setAccountNumber(randomAccNumber);
+        newAccount.setAccountType(AccountsConstants.SAVINGS);
+        newAccount.setBranchAddress(AccountsConstants.ADDRESS);
+        return newAccount;
     }
 
     @Override
@@ -98,20 +110,5 @@ public class AccountsService implements IAccountsService {
         return true;
     }
 
-    /**
-     * @param customer - Customer Object
-     * @return the new account details
-     */
-    private Accounts createNewAccount(Customer customer) {
-        Accounts newAccount = new Accounts();
-        newAccount.setCustomerId(customer.getCustomerID());
-        long randomAccNumber = 1000000000L + new Random().nextInt(900000000);
 
-        newAccount.setAccountNumber(randomAccNumber);
-        newAccount.setAccountType(AccountsConstants.SAVINGS);
-        newAccount.setBranchAddress(AccountsConstants.ADDRESS);
-        newAccount.setCreatedBy("Anonymous");
-        newAccount.setCreatedAt(LocalDateTime.now());
-        return newAccount;
-    }
 }
