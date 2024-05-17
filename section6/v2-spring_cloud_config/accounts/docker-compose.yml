@@ -1,0 +1,42 @@
+services:
+  accounts:
+    image: "abhi14563200/accounts:s2"
+    container_name: accounts-ms
+    ports:
+      - 8080:8080
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - ms_network
+
+  loans:
+    image: "abhi14563200/loans:s2"
+    container_name: loans-ms
+    ports:
+      - 8090:8090
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - ms_network
+
+  cards:
+    image: "abhi14563200/cards:s2"
+    container_name: cards-ms
+    ports:
+      - 9000:9000
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - ms_network
+
+networks:
+  ms_network:
+    driver: "bridge"
+
+
