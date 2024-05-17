@@ -1,6 +1,8 @@
 server:
   port: 9000
 spring:
+  application:
+    name: "cards"
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -15,21 +17,9 @@ spring:
       ddl-auto: update
     show-sql: true
   config:
-    import:
-      - "application_prod.yml"
-      - "application_qa.yml"
-  profiles:
-    active: prod
+    import: "optional:configserver:http://localhost:8071/"
 
-build:
-  version: "3.0"
 
-cards:
-  message: "This is cards default properties"
-  contactDetails:
-    name: "John Doe - Developer"
-    email: "john@eazybank.com"
-  onCallSupport:
-    - (555) 555-1234
-    - (555) 523-1345
+
+
 
