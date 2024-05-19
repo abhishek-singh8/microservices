@@ -191,7 +191,7 @@ public class CardsController {
     @GetMapping("/contact-info")
     public ResponseEntity<String> getContactDetailsFromConfigProperties(){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(contactDetailsDto.message());
+                .body(contactDetailsDto.getMessage());
     }
 
 

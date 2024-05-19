@@ -107,7 +107,7 @@ public class AccountsController {
     public ResponseEntity<String> getContactInfo(){
         return ResponseEntity.
                 status(HttpStatus.OK)
-                .body(accountsContactInfoDto.message());
+                .body(accountsContactInfoDto.getMessage());
     }
 
 

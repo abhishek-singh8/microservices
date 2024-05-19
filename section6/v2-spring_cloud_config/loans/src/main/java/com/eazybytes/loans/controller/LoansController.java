@@ -108,6 +108,6 @@ public class LoansController {
     public ResponseEntity<String> getContactInfo(){
         return ResponseEntity.
                 status(HttpStatus.OK)
-                .body(loansContactInfoDto.message());
+                .body(loansContactInfoDto.getMessage());
     }
 }
