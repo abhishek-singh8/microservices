@@ -2,13 +2,21 @@ spring:
   application:
     name: "configserver"
   profiles:
-    active: native
+    active: git
   cloud:
     config:
       server:
-        native:
-#          search-locations: "classpath:/config"
-         search-locations: "file:///C://Users//kh715e//Desktop//Work//LEARNING_2024//Microservices//UDEMY_COURSE//config"
 
+##          search-locations: "classpath:/config"
+#         search-locations: "file:///C://Users//kh715e//Desktop//Work//LEARNING_2024//Microservices//UDEMY_COURSE//config"
+        git:
+          uri: "https://github.com/abhishek-singh8/ms_config.git"
+          default-label: main
+          clone-on-start: true
+          force-pull: true
+          timeout: 5
+
+encrypt:
+  key: "456882as566s6dd"
 server:
   port: 8071
